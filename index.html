@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEVEN_CIRCLES // NEXUS_CORE</title>
+    <title>you are not supposed to be here.</title>
     <style>
         :root {
             --term-green: #00ff66;
@@ -260,7 +260,27 @@ Ready for Nexus calculation sequences...
 					        printToLog(chosenMessage);
 					    }
 					    break;
-					
+
+					case 'photo':
+					    printToLog("FETCHING ARCHIVAL RECONSTRUCTION... STATIC DETECTED.", true, false);
+					    
+					    // Create the container for the image transmission
+					    const img = document.createElement('img');
+					    img.src = 'photo.png'; // Reference to your completed drawing
+					    img.style.maxWidth = '100%';
+					    img.style.height = 'auto';
+					    img.style.marginTop = '15px';
+					    img.style.border = '1px solid var(--term-green)';
+					    img.style.boxShadow = '0 0 15px rgba(0, 255, 102, 0.4)';
+					    // A slight saturation boost to make those glitched RGB lines pop against the black terminal
+					    img.style.filter = 'contrast(120%) brightness(95%)'; 
+					    
+					    setTimeout(() => {
+					        output.appendChild(img);
+					        output.scrollTop = output.scrollHeight;
+					        printToLog("\n[!] DATA TRANSMISSION COMPLETE // NEXUS_ZONE CORE VISUALIZED.", false, false);
+					    }, 1200); // Slightly longer delay to simulate the data density of the image loading
+					    break;
 				case 'clear':
 					output.textContent = '';
 					break;
