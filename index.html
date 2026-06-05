@@ -229,6 +229,19 @@ Ready for Nexus calculation sequences...
 						printToLog(`REJECTION: Token '${arg}' does not exist in the broken matrix.`, true);
 					}
 					break;
+
+					case 'diagnose':
+					    if (!arg) {
+					        // What happens if they just type 'diagnose'
+					        printToLog("ERROR: Specify a system target to diagnose.", true);
+					    } else if (arg === "SYS_ERR_4047") {
+					        // What happens if they use a secret code they found in the background
+					        printToLog("SCAR_ANALYSIS: Deep tissue corruption detected in reality engine.", false, false);
+					    } else {
+					        // What happens for any other argument
+					        printToLog(`Cannot diagnose target: '${arg}'. Target is unresponsive.`);
+					    }
+					    break; // Never forget the break statement!
 					
 				case 'clear':
 					output.textContent = '';
