@@ -242,6 +242,24 @@ Ready for Nexus calculation sequences...
 					        printToLog(`Cannot diagnose target: '${arg}'. Target is unresponsive.`);
 					    }
 					    break; // Never forget the break statement!
+
+					case 'dagger':
+					    if (arg === "everything-has-a-cost") {
+					        printToLog("REDIRECTING TO CORRUPT LAYER...", true, false);
+					        // Redirects the browser window to daggers.html after a tiny delay
+					        setTimeout(() => {
+					            window.location.href = "daggers.html";
+					        }, 1000);
+					    } else {
+					        // Randomly pick between the two disturbing descriptions
+					        const daggerMessages = [
+					            "Infectious pounding and pounding in the back of my head as they beat me with bats and stabbed we with knives but i didnt cry, i stared back.",
+					            "We tried to identify John Doe, however all that has been left behind is a carefully crafted flesh model of a thin, skinless human."
+					        ];
+					        const chosenMessage = daggerMessages[Math.floor(Math.random() * daggerMessages.length)];
+					        printToLog(chosenMessage);
+					    }
+					    break;
 					
 				case 'clear':
 					output.textContent = '';
