@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVEN_CIRCLES // NEXUS_CORE</title>
+    <style>
+        :root {
+            --term-green: #00ff66;
+            --term-dim: #003311;
+            --term-alert: #ff3333;
+            --bg-color: #050505;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--term-green);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* The background noise / hidden code layer */
+        .background-matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: var(--term-dim);
+            font-size: 0.75rem;
+            line-index: 1.2;
+            padding: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+            overflow: hidden;
+        }
+
+        /* Main interactive terminal container */
+        .terminal-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            border: 1px solid var(--term-green);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            border-bottom: 1px dashed var(--term-green);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .output-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            margin-right: 10px;
+            color: var(--term-green);
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--term-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .alert {
+            color: var(--term-alert);
+        }
+
+        /* Scanline effect for classic CRT dread */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="background-matrix" id="bgMatrix">
+        </div>
+
+    <div class="terminal-container">
+        <div class="header">
+            <div>[!] WARNING: UNMASKED CONNECTION ESTABLISHED</div>
+            <div>SYS_LOC: NEXUS_CALCULATION_CORE // CIRCLE_01</div>
+            <div>STATUS: UNRESTRICTED // MONITORING ACTIVE</div>
+        </div>
+
+        <div class="output-log" id="output">Welcome to SEVEN_CIRCLES Terminal V1.0.0.
+Type 'help' for available system protocols.
+Ready for Nexus calculation sequences...
+
+</div>
+
+        <div class="input-line">
+            <span class="prompt">NEXUS_SYS@CORE:~$</span>
+            <input type="text" id="cmdInput" autofocus autocomplete="off" cellspacing="0">
+        </div>
+    </div>
+
+    <script>
+        const output = document.getElementById('output');
+		const cmdInput = document.getElementById('cmdInput');
+		const bgMatrix = document.getElementById('bgMatrix');
+
+		// Dynamic background static with buried secrets
+		const matrixPool = [
+			"0x7F3A9C", "INIT_SEQ_ERR", "NEXUS_VAL_0091", "SYS_ERR_4047", "STACK_OVFL", 
+			"CIRCLE_OVERRIDE", "CALC_BYPASS_77", "DATA_BLEED_00", "ERR_OTTO_REJECT", 
+			"CREATOR_DATA_NULL", "PEST_CONTROL_ACTIVE", "VOID_LOG_7", "Ø_Ø_Ø", "☠"
+		];
+
+		let matrixText = "";
+		for(let i = 0; i < 400; i++) {
+			matrixText += matrixPool[Math.floor(Math.random() * matrixPool.length)] + "   ";
+		}
+		bgMatrix.textContent = matrixText;
+
+		// Glitch text engine to apply systemic corruption
+		function corruptText(text, severity = 0.15) {
+			const glitches = ["Ø", "☠", "##", "SYSTEM_SCAR", "ERR", "::", "ø", "X", "???"];
+			return text.split('').map(char => {
+				if (Math.random() < severity) {
+					return glitches[Math.floor(Math.random() * glitches.length)];
+				}
+				return char;
+			}).join('');
+		}
+
+		function printToLog(text, isAlert = false, glitchIt = true) {
+			const span = document.createElement('span');
+			if (isAlert) span.className = 'alert';
+			
+			// Apply the system-wide background corruption to the text output
+			span.textContent = glitchIt ? corruptText(text) + "\n" : text + "\n";
+			output.appendChild(span);
+			output.scrollTop = output.scrollHeight;
+		}
+
+		// Intercepting and processing terminal commands
+		cmdInput.addEventListener('keydown', function(e) {
+			if (e.key === 'Enter') {
+				const commandText = this.value.trim();
+				if (commandText) {
+					processCommand(commandText);
+				}
+				this.value = '';
+			}
+		});
+
+		function processCommand(cmd) {
+			// The user's input remains clean, but the terminal's echo is corrupted
+			printToLog(`NEXUS_SYS@CORE:~$ ${cmd}`, false, false);
+			
+			const tokens = cmd.split(' ');
+			const baseCmd = tokens[0].toLowerCase();
+			const arg = tokens[1];
+
+			switch(baseCmd) {
+				case 'help':
+					printToLog(
+						"[-] SYSTEM PROTOCOLS AVAILABLE (INTEGRITY COMPROMISED):\n" +
+						"  status               - Fetch layer degradation metrics.\n" +
+						"  nexus-calc [code]    - Force mathematical alignment of the core.\n" +
+						"  clear                - Flush terminal memory buffers."
+					);
+					break;
+					
+				case 'status':
+					printToLog(
+						"--- [NEXUS LAYER STATUS REPORT] ---\n" +
+						"LAYERS 01-03: OPERATIONAL // LEAKING\n" +
+						"LAYERS 04-06: VOLATILE // THE WORLD DETESTS THIS ARCHITECTURE\n" +
+						"LAYER 07: UNREACHABLE // DEEP HATRED IS CONSUMING THE INTERFACE.\n" +
+						"NOTE: IF KEY VALIDATION FAILS, OBSERVE THE STATIC BACKGROUND EXCREMENT."
+					);
+					break;
+					
+				case 'nexus-calc':
+					if (!arg) {
+						printToLog("CRITICAL FAILURE: nexus-calc requires an external parameter. Format: nexus-calc [code]", true);
+					} else if (arg === "CALC_BYPASS_77") {
+						printToLog(
+							"[!!] BYPASS EXECUTED.\n" +
+							"Calculating Nexus alignment... Result: 0x00000000 (Absolute Zero Achieved).\n" +
+							"Circle 1 has unraveled. The creators are irrelevant. Preparing Circle 2 elevation.",
+							false, false // Kept clear so they can read their reward text!
+						);
+					} else if (arg === "ERR_OTTO_REJECT") {
+						printToLog("WARNING: CREATOR FOOTPRINT DETECTED AND DELETED. UNIT REFUSES PEST INTERACTION.", true);
+					} else if (arg === "SYS_ERR_4047") {
+						printToLog("DIAGNOSTIC: Permanent scarring located. Reality baseline is fundamentally hostile to this machine.");
+					} else {
+						printToLog(`REJECTION: Token '${arg}' does not exist in the broken matrix.`, true);
+					}
+					break;
+					
+				case 'clear':
+					output.textContent = '';
+					break;
+					
+				default:
+					printToLog(`SYSTEM ERROR: Protocol '${baseCmd}' has been chewed up by the void.`, true);
+			}
+		}
+    </script>
+</body>
+</html>
