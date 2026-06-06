@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METASPACE // LOADING...</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Loading Screen Setup */
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: #555;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #222;
+            border-top: 3px solid #ff3333;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* The Glitch Tear Animation Overlay */
+        #tear-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Game Interface */
+        #game-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: #050505;
+        }
+
+        canvas {
+            background: #111;
+            border: 2px solid #333;
+            box-shadow: 0 0 30px rgba(255,0,0,0.2);
+        }
+
+        /* Death/Lock Screen */
+        #lock-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #7a0000;
+            color: #fff;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="spinner" id="loader"></div>
+        <p id="load-text">SYNCHRONIZING WITH METASPACE GATEWAY...</p>
+    </div>
+
+    <div id="game-container">
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+    </div>
+
+    <div id="lock-screen">
+        <h1 style="font-size: 3rem;">STATIC OVERFLOW</h1>
+        <p style="font-size: 1.2rem;">You hesitated. The file has been corrupted.</p>
+        <p style="color: #ccc; margin-top: 30px;">[ REFRESH THE TAB TO MANIFEST AGAIN ]</p>
+    </div>
+
+<script>
+    // --- PHASE 1: THE FAKE LOAD & TEAR TRIGGER ---
+    setTimeout(() => {
+        document.getElementById('loader').style.animationPlayState = 'paused';
+        document.getElementById('load-text').innerText = "FATAL ERROR: STRUCTURAL INTEGRITY RIPPED.";
+        document.getElementById('load-text').style.color = "red";
+
+        // Simulate the screen tearing open after 1.5 seconds of freeze
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('game-container').style.display = 'flex';
+            initGame();
+        }, 1500);
+
+    }, 3000); // Loads for 3 seconds before breaking
+
+
+    // --- PHASE 2: THE RUN-OR-DIE PLATFORMER ---
+    function initGame() {
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Game state variables
+        let player = { x: 50, y: 300, width: 20, height: 25, vx: 0, vy: 0, grounded: false };
+        let platforms = [
+            { x: 0, y: 350, width: 200, height: 50 },
+            { x: 250, y: 300, width: 150, height: 20 },
+            { x: 450, y: 250, width: 150, height: 20 },
+            { x: 650, y: 200, width: 150, height: 20 }
+        ];
+
+        let keys = {};
+        let isMoving = false;
+        let stillTimer = 180; // 3 seconds at 60 FPS before failure
+        let gameActive = true;
+
+        // Controls
+        window.addEventListener('keydown', (e) => keys[e.code] = true);
+        window.addEventListener('keyup', (e) => keys[e.code] = false);
+
+        function update() {
+            if (!gameActive) return;
+
+            // Movement Physics
+            if (keys['ArrowRight'] || keys['KeyD']) { player.vx = 4; isMoving = true; }
+            else if (keys['ArrowLeft'] || keys['KeyA']) { player.vx = -4; isMoving = true; }
+            else { player.vx = 0; isMoving = false; }
+
+            if ((keys['Space'] || keys['ArrowUp'] || keys['KeyW']) && player.grounded) {
+                player.vy = -10;
+                player.grounded = false;
+            }
+
+            player.vy += 0.5; // Gravity
+            player.x += player.vx;
+            player.

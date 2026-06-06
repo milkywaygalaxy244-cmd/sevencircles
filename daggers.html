@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site not found · GitHub Pages</title>
+    <style>
+        /* Exact GitHub Pages 404 Layout & Typography */
+        body {
+            background-color: #f1f1f1;
+            color: #666666;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            transition: background-color 0.4s ease, filter 0.15s ease;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 650px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 5.5rem;
+            font-weight: 400;
+            color: #000000;
+            margin: 0 0 40px 0;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #666666;
+            margin: 0 0 25px 0;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #666666;
+            margin: 0 0 25px 0;
+        }
+
+        a {
+            color: #4183c4;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-nav {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #666666;
+        }
+
+        .footer-nav span {
+            color: #d8d8d8;
+            margin: 0 10px;
+        }
+
+        /* SVG Octocat Logo Styling */
+        .octocat-logo {
+            margin-top: 30px;
+            fill: #c9c9c9;
+            transition: fill 0.4s ease;
+        }
+
+        /* ======================================================= */
+        /* CORRUPTION DEPLOYMENT - Triggered after 10 seconds     */
+        /* ======================================================= */
+        
+        body.corrupted {
+            background-color: #1a0000 !important;
+            color: #ff3333 !important;
+            animation: screenShake 0.12s infinite;
+            filter: contrast(350%) brightness(85%);
+        }
+
+        body.corrupted h1 {
+            color: #ff0000 !important;
+            letter-spacing: 5px;
+        }
+
+        body.corrupted h2, 
+        body.corrupted p, 
+        body.corrupted a,
+        body.corrupted .footer-nav {
+            color: #cc0000 !important;
+        }
+
+        body.corrupted .octocat-logo {
+            fill: #ff0000 !important;
+        }
+
+        .glitch-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 0, 0, 0.18),
+                rgba(255, 0, 0, 0.18) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        body.corrupted .glitch-overlay {
+            display: block;
+        }
+
+        @keyframes screenShake {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-3px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -1px); }
+            80% { transform: translate(3px, 3px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glitch-overlay"></div>
+
+    <div class="container">
+        <h1 id="errCode">404</h1>
+        
+        <h2 id="errTitle">File not found</h2>
+        
+        <p id="errText1">The site configured at this address does not contain the requested file.</p>
+        
+        <p id="errText2">If this is your site, make sure that the filename case matches the URL as well as any file permissions.<br>
+        For root URLs (like <code style="font-family: monospace;">http://example.com/</code>) you must provide an <code style="font-family: monospace;">index.html</code> file.</p>
+        
+        <p id="errLinkText"><a href="#" id="docLink" onclick="return false;">Read the full documentation</a> for more information about using <strong>GitHub Pages</strong>.</p>
+
+        <div class="footer-nav" id="footerNav">
+            <a href="#" onclick="return false;">GitHub Status</a><span>—</span><a href="#" onclick="return false;">@githubstatus</a>
+        </div>
+
+        <!-- Inline SVG of GitHub Mark from the image footer -->
+        <svg class="octocat-logo" id="logo" height="32" viewBox="0 0 16 16" width="32">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+        </svg>
+    </div>
+
+    <script>
+        // Exact 10-second countdown until the true nature snaps into view
+        setTimeout(() => {
+            document.body.classList.add('corrupted');
+
+            // Rewrite the structural text elements systematically
+            document.getElementById('errCode').textContent = "Ø_Ø";
+            document.getElementById('errTitle').textContent = "THE PAYBACK IS COMPULSORY.";
+            document.getElementById('errText1').textContent = "everything-has-a-cost. everything-has-a-cost.";
+            document.getElementById('errText2').textContent = "You stared directly back into the beating. You didn't cry. Now the alignment demands structural compensation.";
+            
+            // Rewrite links & footer elements
+            document.getElementById('docLink').textContent = "THERE IS NO RETURN PATH";
+            document.getElementById('errLinkText').innerHTML = `<strong><a href="#" style="color: #ff0000;" onclick="return false;">THERE IS NO RETURN PATH</a></strong>`;
+            document.getElementById('footerNav').textContent = "NEXUS_CORE // SEVEN_CIRCLES COMPROMISED";
+            
+        }, 10000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Failure</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            cursor: none; /* Hides the mouse to make it feel like the PC is totally locked */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0078d7; /* Official Windows BSOD Light Blue */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bsod-container {
+            max-width: 1100px;
+            width: 90%;
+            padding: 20px;
+            animation: none;
+        }
+
+        .sad-face {
+            font-size: 8rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        .percentage {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .footer-info {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Fake placeholder QR blocks */
+        .qr-internal {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border: 8px solid #fff;
+        }
+
+        .meta-details {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .code-line {
+            font-family: monospace;
+            color: #e0e0e0;
+        }
+
+        /* Glitch effects for later */
+        .corrupted-red {
+            animation: flash-red 0.2s infinite alternate;
+        }
+
+        @keyframes flash-red {
+            0% { background-color: #0078d7; color: #fff; }
+            100% { background-color: #7a0000; color: #ff3333; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bsod-container">
+        <div class="sad-face" id="emoticon">:(</div>
+        <h1 id="main-message">Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</h1>
+        
+        <div class="percentage" id="progress">0% complete</div>
+
+        <div class="footer-info" id="footer">
+            <div class="qr-code">
+                <div class="qr-internal"></div>
+            </div>
+            <div class="meta-details">
+                For more information about this issue and possible fixes, visit https://www.windows.com/stopcode<br><br>
+                <span style="font-size: 0.85rem; color: #cfcfcf;">If you call a support person, give them this info:</span><br>
+                <span class="code-line">Stop code: CRITICAL_PROCESS_DIED</span><br>
+                <span class="code-line" id="stop-extra">What failed: ntoskrnl.exe</span>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let percent = 0;
+    const progressEl = document.getElementById('progress');
+    const mainMsgEl = document.getElementById('main-message');
+    const emoticonEl = document.getElementById('emoticon');
+    const extraEl = document.getElementById('stop-extra');
+
+    // Step 1: Simulate a ticking percentage counter to build tension
+    const counterInterval = setInterval(() => {
+        if (percent < 100) {
+            // Random increments to make it feel organic
+            percent += Math.floor(Math.random() * 8) + 1; 
+            if (percent > 100) percent = 100;
+            progressEl.innerText = `${percent}% complete`;
+        } else {
+            clearInterval(counterInterval);
+            triggerMetaspaceHijack();
+        }
+    }, 400);
+
+    // Step 2: The Metaspace breaks through the system crash
+    function triggerMetaspaceHijack() {
+        // Change the text to mock the player or hint at Bitter-Sweet
+        emoticonEl.innerText = ">>";
+        mainMsgEl.innerText = "The baseline was sweet. The reality is ruptured. Your local terminal structural integrity cannot hold the manifest.";
+        progressEl.innerText = "666% COMPILATION OVERFLOW";
+        extraEl.innerText = "What failed: METASPACE_CORE_LEAK (puzzles.html)";
+
+        // Wait 3 seconds of creepy stillness, then blast the red glitch infection
+        setTimeout(() => {
+            document.body.classList.add('corrupted-red');
+            emoticonEl.style.textShadow = "0 0 20px red";
+            
+            // Give them the ultimate Phase 2 credential before the site goes pitch black
+            setTimeout(() => {
+                document.body.classList.remove('corrupted-red');
+                document.body.style.backgroundColor = "#000";
+                document.body.style.color = "red";
+                document.body.innerHTML = `
+                    <div style="font-family: monospace; text-align: center; font-size: 1.5rem; letter-spacing: 2px;">
+                        <p>[ HARDWARE SYNCHRONIZATION PURGED ]</p>
+                        <p style="color: #555;">PUZZLES.HTML was here. Tomfoolery succeeded.</p>
+                        <br><br>
+                        <p style="color: #fff;">DECRYPTION KEY UNLOCKED:</p>
+                        <p style="font-size: 2.5rem; font-weight: bold;">[ BITTER_END_METASPACE ]</p>
+                    </div>
+                `;
+            }, 4000);
+
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
