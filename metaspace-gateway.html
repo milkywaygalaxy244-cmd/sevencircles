@@ -158,4 +158,74 @@
 
             player.vy += 0.5; // Gravity
             player.x += player.vx;
-            player.
+            player.y += player.vy;
+
+            // Platform Collisions
+            player.grounded = false;
+            platforms.forEach(p => {
+                if (player.x < p.x + p.width && player.x + player.width > p.x &&
+                    player.y + player.height > p.y && player.y + player.height - player.vy <= p.y) {
+                    player.y = p.y - player.height;
+                    player.vy = 0;
+                    player.grounded = true;
+                }
+            });
+
+            // Boundaries
+            if (player.x < 0) player.x = 0;
+            if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+            
+            // Fell in the void
+            if (player.y > canvas.height) {
+                player.x = 50; player.y = 300; player.vy = 0;
+            }
+
+            // --- THE STAND-STILL DETECTOR ---
+            if (!isMoving) {
+                stillTimer--;
+                if (stillTimer <= 0) {
+                    gameActive = false;
+                    triggerPermadeath();
+                }
+            } else {
+                stillTimer = 180; // Reset timer if they move
+            }
+
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Platforms
+            ctx.fillStyle = '#333';
+            platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
+
+            // Draw Danger Bar (Visual warning of standing still)
+            ctx.fillStyle = 'rgba(255, 0, 0, ' + (1 - (stillTimer / 180)) + ')';
+            ctx.fillRect(0, 0, (stillTimer / 180) * canvas.width, 5);
+
+            // Draw Player (Glitched Square)
+            ctx.fillStyle = isMoving ? '#00ff66' : '#ff3333';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Core Text Overlay
+            ctx.fillStyle = '#555';
+            ctx.font = '12px monospace';
+            ctx.fillText("METASPACE_LAYER_02 // KEEP MOVING", 15, 25);
+        }
+
+        update();
+    }
+
+    // --- PHASE 3: THE LOCKOUT ---
+    function triggerPermadeath() {
+        document.getElementById('game-container').style.display = 'none';
+        document.getElementById('lock-screen').style.display = 'flex';
+        // By omitting any restart buttons or links, the browser tab is functionally "dead" until F5.
+    }
+</script>
+
+</body>
+</html>
